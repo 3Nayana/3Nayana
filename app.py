@@ -74,26 +74,26 @@ section[data-testid="stAppViewContainer"] > div {
 
 /* st.metric */
 div[data-testid="metric-container"] {
-    background:linear-gradient(145deg,#111827,#0d1520);
+    background:#ffffff !important;
     border-radius:14px; padding:1.1rem .9rem;
-    border:1px solid rgba(255,255,255,0.06);
-    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    border:1px solid #e2e8f0;
+    box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 div[data-testid="metric-container"] > label,
 div[data-testid="metric-container"] label p {
     font-size:.68rem !important; font-weight:700 !important;
     text-transform:uppercase; letter-spacing:.9px;
-    color:#a0aec0 !important;
+    color:#4a5568 !important;
 }
 div[data-testid="stMetricValue"],
 div[data-testid="stMetricValue"] > div,
 div[data-testid="stMetricValue"] p {
     font-size:1.75rem !important; font-weight:800 !important;
-    color:#ffffff !important;
+    color:#000000 !important;
 }
 div[data-testid="stMetricDelta"] svg { display:none; }
 div[data-testid="stMetricDelta"] > div {
-    font-size:.72rem !important; color:#4a5568 !important;
+    font-size:.72rem !important; color:#718096 !important;
 }
 
 /* section heading */
