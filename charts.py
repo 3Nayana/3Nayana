@@ -4,25 +4,25 @@ import pandas as pd
 import plotly.graph_objects as go
 
 COLORS = {
-    "Positive": "#00e676",
-    "Neutral":  "#40c4ff",
-    "Negative": "#ff5252",
+    "Positive": "#00a854",
+    "Neutral":  "#0099cc",
+    "Negative": "#cc2222",
 }
-GPAY_COLOR   = "#00d4ff"
-PHONPE_COLOR = "#aa00ff"
-FONT_COLOR   = "#e2e8f0"
-GRID_COLOR   = "rgba(255,255,255,0.07)"
+GPAY_COLOR   = "#0099bb"
+PHONPE_COLOR = "#7700cc"
+FONT_COLOR   = "#1a202c"
+GRID_COLOR   = "rgba(0,0,0,0.08)"
 
 _BASE = dict(
-    plot_bgcolor  = "rgba(0,0,0,0)",
-    paper_bgcolor = "rgba(0,0,0,0)",
+    plot_bgcolor  = "#ffffff",
+    paper_bgcolor = "#f4f6fb",
     font          = dict(color=FONT_COLOR, family="Inter, sans-serif"),
     margin        = dict(l=20, r=20, t=60, b=20),
 )
 
 _LEG = dict(
-    bgcolor     = "rgba(30,30,50,0.8)",
-    bordercolor = "rgba(255,255,255,0.10)",
+    bgcolor     = "#ffffff",
+    bordercolor = "#d1d9e6",
     borderwidth = 1,
 )
 
@@ -46,7 +46,7 @@ def donut_chart(df: pd.DataFrame, brand: str, accent: str) -> go.Figure:
         hole          = 0.60,
         marker        = dict(
             colors = [COLORS[l] for l in counts.index],
-            line   = dict(color="#0a0a14", width=4),
+            line   = dict(color="#f4f6fb", width=4),
         ),
         textinfo      = "label+percent",
         textposition  = "outside",
@@ -90,8 +90,8 @@ def donut_chart(df: pd.DataFrame, brand: str, accent: str) -> go.Figure:
         ),
         height = 420,
         margin = dict(l=40, r=40, t=80, b=40),
-        plot_bgcolor  = "rgba(0,0,0,0)",
-        paper_bgcolor = "rgba(0,0,0,0)",
+        plot_bgcolor  = "#ffffff",
+        paper_bgcolor = "#f4f6fb",
         font          = dict(color=FONT_COLOR, family="Inter, sans-serif"),
     )
     return fig
@@ -115,12 +115,12 @@ def gauge_chart(score: float, brand: str, accent: str) -> go.Figure:
                 tickfont  = dict(color=FONT_COLOR, size=11),
             ),
             bar         = dict(color=accent, thickness=0.22),
-            bgcolor     = "rgba(0,0,0,0)",
-            bordercolor = "rgba(255,255,255,0.08)",
+            bgcolor     = "#f4f6fb",
+            bordercolor = "#d1d9e6",
             steps       = [
-                dict(range=[-1,    -0.05], color="rgba(255,82,82,0.10)"),
-                dict(range=[-0.05,  0.05], color="rgba(64,196,255,0.07)"),
-                dict(range=[ 0.05,  1   ], color="rgba(0,230,118,0.10)"),
+                dict(range=[-1,    -0.05], color="rgba(204,34,34,0.10)"),
+                dict(range=[-0.05,  0.05], color="rgba(0,153,204,0.07)"),
+                dict(range=[ 0.05,  1   ], color="rgba(0,168,84,0.10)"),
             ],
             threshold   = dict(
                 line      = dict(color=accent, width=3),
@@ -218,8 +218,8 @@ def radar_chart(gpay: pd.DataFrame, phonpe: pd.DataFrame) -> go.Figure:
     fig  = go.Figure()
 
     for df, name, color, fill in [
-        (gpay,   "Google Pay", GPAY_COLOR,  "rgba(0,212,255,0.15)"),
-        (phonpe, "PhonePe",   PHONPE_COLOR, "rgba(170,0,255,0.15)"),
+        (gpay,   "Google Pay", GPAY_COLOR,  "rgba(0,153,187,0.20)"),
+        (phonpe, "PhonePe",   PHONPE_COLOR, "rgba(119,0,204,0.20)"),
     ]:
         vals = [_pct(df, s) for s in cats]
         fig.add_trace(go.Scatterpolar(
@@ -235,15 +235,15 @@ def radar_chart(gpay: pd.DataFrame, phonpe: pd.DataFrame) -> go.Figure:
         title  = dict(text="<b>Sentiment Radar</b>",
                       font=dict(size=15), x=0.5),
         polar  = dict(
-            bgcolor     = "rgba(0,0,0,0)",
+            bgcolor     = "#ffffff",
             radialaxis  = dict(
                 visible    = True,
                 range      = [0, 100],
-                color      = FONT_COLOR,
-                gridcolor  = GRID_COLOR,
+                color      = "#555e6e",
+                gridcolor  = "rgba(0,0,0,0.10)",
                 ticksuffix = "%",
             ),
-            angularaxis = dict(color=FONT_COLOR),
+            angularaxis = dict(color="#1a202c", gridcolor="rgba(0,0,0,0.10)"),
         ),
         legend = _LEG,
         **_BASE,
