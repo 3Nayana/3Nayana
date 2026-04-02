@@ -21,11 +21,17 @@ st.set_page_config(
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
-html, body, [class*="css"] { font-family:'Inter',sans-serif; }
+html, body, [class*="css"] { font-family:'Inter',sans-serif; color:#e2e8f0; }
 .main .block-container {
     background:#080b14;
     padding:2rem 2.5rem 5rem;
     max-width:1600px;
+}
+section[data-testid="stAppViewContainer"] {
+    background:#080b14 !important;
+}
+section[data-testid="stAppViewContainer"] > div {
+    background:#080b14 !important;
 }
 
 /* hero */
@@ -73,14 +79,17 @@ div[data-testid="metric-container"] {
     border:1px solid rgba(255,255,255,0.06);
     box-shadow:0 4px 20px rgba(0,0,0,0.3);
 }
-div[data-testid="metric-container"] > label {
+div[data-testid="metric-container"] > label,
+div[data-testid="metric-container"] label p {
     font-size:.68rem !important; font-weight:700 !important;
     text-transform:uppercase; letter-spacing:.9px;
-    color:#4a5568 !important;
+    color:#a0aec0 !important;
 }
-div[data-testid="stMetricValue"] > div {
+div[data-testid="stMetricValue"],
+div[data-testid="stMetricValue"] > div,
+div[data-testid="stMetricValue"] p {
     font-size:1.75rem !important; font-weight:800 !important;
-    color:#e2e8f0 !important;
+    color:#ffffff !important;
 }
 div[data-testid="stMetricDelta"] svg { display:none; }
 div[data-testid="stMetricDelta"] > div {
@@ -319,12 +328,14 @@ with T1:
             st.plotly_chart(
                 ch.donut_chart(gpay, "Google Pay", ch.GPAY_COLOR),
                 use_container_width=True,
+                key="overview_donut_gpay",
             )
     with d2:
         if not phonpe.empty:
             st.plotly_chart(
                 ch.donut_chart(phonpe, "PhonePe", ch.PHONPE_COLOR),
                 use_container_width=True,
+                key="overview_donut_phonpe",
             )
 
     sh("🎯 Average VADER Score")
@@ -334,12 +345,14 @@ with T1:
             st.plotly_chart(
                 ch.gauge_chart(g_avg, "Google Pay", ch.GPAY_COLOR),
                 use_container_width=True,
+                key="overview_gauge_gpay",
             )
     with g2:
         if not phonpe.empty:
             st.plotly_chart(
                 ch.gauge_chart(p_avg, "PhonePe", ch.PHONPE_COLOR),
                 use_container_width=True,
+                key="overview_gauge_phonpe",
             )
 
     if "rating" in gpay.columns or "rating" in phonpe.columns:
@@ -347,6 +360,7 @@ with T1:
         st.plotly_chart(
             ch.rating_distribution(gpay, phonpe),
             use_container_width=True,
+            key="overview_rating_dist",
         )
 
     sh("💡 Quick Insights")
@@ -381,25 +395,27 @@ with T2:
             st.plotly_chart(
                 ch.donut_chart(gpay, "Google Pay", ch.GPAY_COLOR),
                 use_container_width=True,
+                key="gpay_donut",
             )
         with col_b:
             st.plotly_chart(
                 ch.gauge_chart(float(gpay["Score"].mean()),
                                "Google Pay", ch.GPAY_COLOR),
                 use_container_width=True,
+                key="gpay_gauge",
             )
 
         col_c, col_d = st.columns(2)
         with col_c:
             fig_rb = ch.rating_vs_sentiment(gpay, "Google Pay", ch.GPAY_COLOR)
             if fig_rb.data:
-                st.plotly_chart(fig_rb, use_container_width=True)
+                st.plotly_chart(fig_rb, use_container_width=True, key="gpay_rating_box")
             else:
                 st.info("Star-rating data not available for Google Pay.")
         with col_d:
             fig_tb = ch.top_thumbsup_bar(gpay, "Google Pay", ch.GPAY_COLOR)
             if fig_tb.data:
-                st.plotly_chart(fig_tb, use_container_width=True)
+                st.plotly_chart(fig_tb, use_container_width=True, key="gpay_thumbsup")
             else:
                 st.info("Thumbs-up data not available for Google Pay.")
 
@@ -430,25 +446,27 @@ with T3:
             st.plotly_chart(
                 ch.donut_chart(phonpe, "PhonePe", ch.PHONPE_COLOR),
                 use_container_width=True,
+                key="phonpe_donut",
             )
         with col_b:
             st.plotly_chart(
                 ch.gauge_chart(float(phonpe["Score"].mean()),
                                "PhonePe", ch.PHONPE_COLOR),
                 use_container_width=True,
+                key="phonpe_gauge",
             )
 
         col_c, col_d = st.columns(2)
         with col_c:
             fig_rb = ch.rating_vs_sentiment(phonpe, "PhonePe", ch.PHONPE_COLOR)
             if fig_rb.data:
-                st.plotly_chart(fig_rb, use_container_width=True)
+                st.plotly_chart(fig_rb, use_container_width=True, key="phonpe_rating_box")
             else:
                 st.info("Star-rating data not available for PhonePe.")
         with col_d:
             fig_tb = ch.top_thumbsup_bar(phonpe, "PhonePe", ch.PHONPE_COLOR)
             if fig_tb.data:
-                st.plotly_chart(fig_tb, use_container_width=True)
+                st.plotly_chart(fig_tb, use_container_width=True, key="phonpe_thumbsup")
             else:
                 st.info("Thumbs-up data not available for PhonePe.")
 
@@ -475,17 +493,17 @@ with T4:
         st.warning("Need data for both brands. Adjust sidebar filters.")
     else:
         st.plotly_chart(ch.grouped_bar(gpay, phonpe),
-                        use_container_width=True)
+                        use_container_width=True, key="compare_grouped_bar")
         st.plotly_chart(ch.stacked_pct_bar(gpay, phonpe),
-                        use_container_width=True)
+                        use_container_width=True, key="compare_stacked_bar")
 
         col_l, col_r = st.columns(2)
         with col_l:
             st.plotly_chart(ch.radar_chart(gpay, phonpe),
-                            use_container_width=True)
+                            use_container_width=True, key="compare_radar")
         with col_r:
             st.plotly_chart(ch.score_histogram(gpay, phonpe),
-                            use_container_width=True)
+                            use_container_width=True, key="compare_histogram")
 
         gp   = pct(gpay,   "Positive")
         pp   = pct(phonpe, "Positive")
