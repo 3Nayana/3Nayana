@@ -1,16 +1,46 @@
-## Hi there 👋
+# 📊 UPI Sentiment Dashboard — Google Pay vs PhonePe
 
-<!--
-**3Nayana/3Nayana** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## Folder Structure
+```
+sentiment_dashboard/
+├── app.py
+├── analyzer.py
+├── data_loader.py
+├── charts.py
+├── requirements.txt
+├── README.md
+└── sample_data/
+    ├── GooglePayIndia.csv
+    └── PhonePayIndia.csv
+```
 
-Here are some ideas to get you started:
+## Setup & Run
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## CSV Column Format
+```
+,reviewId,userName,userImage,content,score,thumbsUpCount,
+reviewCreatedVersion,at,replyContent,repliedAt
+```
+
+Key columns used:
+| CSV column | Used as |
+|---|---|
+| `content` | Review text for sentiment |
+| `score` | Star rating (1–5) |
+| `thumbsUpCount` | Helpful votes |
+| `at` | Review date |
+| `userName` | Reviewer name |
+
+## Features
+
+| Tab | Charts |
+|---|---|
+| 🏠 Overview | KPI cards, Donuts, Gauges, Rating distribution, Insights |
+| 💙 Google Pay | Donut, Gauge, Rating-vs-Sentiment Box, Top Thumbs-up, Timeline, Reviews |
+| 💜 PhonePe | Same as above |
+| ⚖️ Compare | Grouped bar, Stacked %, Radar, Histogram, Winner card |
+| 📋 Data Explorer | Searchable/filterable table, Download CSV |
