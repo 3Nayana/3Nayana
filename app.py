@@ -604,7 +604,7 @@ with T5:
 
     st.dataframe(
         edf[show].style
-                 .applymap(_hl, subset=["Sentiment"])
+                 .map(_hl, subset=["Sentiment"])
                  .format(fmt, na_rep="—"),
         use_container_width=True,
         height=480,
